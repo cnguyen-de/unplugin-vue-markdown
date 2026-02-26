@@ -13,7 +13,7 @@ module.exports = defineConfig({
     config
       .plugin('markdown')
       .use(Markdown({
-        markdownItUses: [
+        markdownUses: [
           prism,
         ],
       }))

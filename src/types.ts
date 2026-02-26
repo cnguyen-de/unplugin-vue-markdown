@@ -1,12 +1,12 @@
 import type { ComponentPluginOptions } from '@mdit-vue/plugin-component'
 import type { FrontmatterPluginOptions } from '@mdit-vue/plugin-frontmatter'
 import type { MarkdownItEnv } from '@mdit-vue/types'
+import type MarkdownExit from 'markdown-exit'
 import type {
-  MarkdownItAsync,
-  MarkdownItAsyncOptions,
-  PluginSimple as MarkdownItPluginSimple,
-  PluginWithOptions as MarkdownItPluginWithOptions,
-} from 'markdown-it-async'
+  MarkdownExitOptions,
+  PluginSimple,
+  PluginWithOptions,
+} from 'markdown-exit'
 import type { FilterPattern } from 'unplugin-utils'
 import type { preprocessHead } from './core/head'
 
@@ -150,24 +150,43 @@ export interface Options {
   escapeCodeTagInterpolation?: boolean
 
   /**
-   * Options passed to Markdown It
+   * Options passed to markdown-exit
    */
-  markdownItOptions?: MarkdownItAsyncOptions
+  markdownOptions?: MarkdownExitOptions
 
   /**
-   * Plugins for Markdown It
+   * Plugins for markdown-exit
    */
-  markdownItUses?: (
-    | MarkdownItPluginSimple
-    | [MarkdownItPluginSimple | MarkdownItPluginWithOptions<any>, any]
+  markdownUses?: (
+    | PluginSimple
+    | [PluginSimple | PluginWithOptions<any>, any]
     | any
   )[]
 
   /**
-   * A function providing the Markdown It instance gets the ability to apply custom
+   * A function providing the markdown-exit instance gets the ability to apply custom
    * settings/plugins
    */
-  markdownItSetup?: (MarkdownIt: MarkdownItAsync) => void | Promise<void>
+  markdownSetup?: (md: MarkdownExit) => void | Promise<void>
+
+  /**
+   * @deprecated Use `markdownOptions` instead
+   */
+  markdownItOptions?: MarkdownExitOptions
+
+  /**
+   * @deprecated Use `markdownUses` instead
+   */
+  markdownItUses?: (
+    | PluginSimple
+    | [PluginSimple | PluginWithOptions<any>, any]
+    | any
+  )[]
+
+  /**
+   * @deprecated Use `markdownSetup` instead
+   */
+  markdownItSetup?: (md: MarkdownExit) => void | Promise<void>
 
   /**
    * Wrap the rendered html in a div
@@ -208,7 +227,9 @@ export interface Options {
   exclude?: FilterPattern
 }
 
-export interface ResolvedOptions extends Required<Options> { }
+export interface ResolvedOptions extends Required<Options> {}
+
+export type { MarkdownExit, MarkdownExitOptions }
 
 export interface MarkdownEnv extends MarkdownItEnv {
   id: string

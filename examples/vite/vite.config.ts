@@ -11,11 +11,11 @@ export default defineConfig({
       include: [/\.vue$/, /\.md$/],
     }),
     Markdown({
-      markdownItOptions: {
+      markdownOptions: {
 
       },
       headEnabled: true,
-      markdownItUses: [
+      markdownUses: [
         prism,
       ],
     }),

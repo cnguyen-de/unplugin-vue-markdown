@@ -2,6 +2,13 @@ import type { Options, ResolvedOptions } from '../types'
 import { getVueVersion } from './utils'
 
 export function resolveOptions(userOptions: Options): ResolvedOptions {
+  const noop = () => {}
+
+  // Resolve with new names taking precedence over deprecated old names
+  const markdownOptions = userOptions.markdownOptions ?? userOptions.markdownItOptions ?? {}
+  const markdownUses = userOptions.markdownUses ?? userOptions.markdownItUses ?? []
+  const markdownSetup = userOptions.markdownSetup ?? userOptions.markdownItSetup ?? noop
+
   const defaultOptions: ResolvedOptions = {
     headEnabled: false,
     headField: '',
@@ -14,9 +21,12 @@ export function resolveOptions(userOptions: Options): ResolvedOptions {
     customSfcBlocks: ['route', 'i18n', 'style'],
     componentOptions: {},
     frontmatterOptions: {},
+    markdownOptions: {},
+    markdownUses: [],
+    markdownSetup: noop,
     markdownItOptions: {},
     markdownItUses: [],
-    markdownItSetup: () => {},
+    markdownItSetup: noop,
     wrapperDiv: true,
     wrapperComponent: null,
     transforms: {},
@@ -35,6 +45,13 @@ export function resolveOptions(userOptions: Options): ResolvedOptions {
   const options = {
     ...defaultOptions,
     ...userOptions,
+    // Set both old and new keys to the resolved value
+    markdownOptions,
+    markdownUses,
+    markdownSetup,
+    markdownItOptions: markdownOptions,
+    markdownItUses: markdownUses,
+    markdownItSetup: markdownSetup,
   }
 
   return options as ResolvedOptions

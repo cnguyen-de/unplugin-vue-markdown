@@ -84,7 +84,7 @@ module.exports = {
     config
       .plugin('markdown')
       .use(Markdown({
-        markdownItUses: [
+        markdownUses: [
           prism,
         ],
       }))
@@ -226,7 +226,9 @@ For more options available, please refer to [`@unhead/vue`'s docs](https://unhea
 
 ## Options
 
-`unplugin-vue-markdown` uses [`markdown-it`](https://github.com/markdown-it/markdown-it) under the hood, see [`markdown-it`'s docs](https://markdown-it.github.io/markdown-it/) for more details
+`unplugin-vue-markdown` uses [`markdown-exit`](https://github.com/nicepkg/markdown-exit) under the hood, a TypeScript rewrite of markdown-it with built-in async rendering. markdown-it plugins are compatible.
+
+> **Note:** The old option names (`markdownItOptions`, `markdownItUses`, `markdownItSetup`) are deprecated but still functional.
 
 ```ts
 // vite.config.js
@@ -237,15 +239,14 @@ import Markdown from 'unplugin-vue-markdown/vite'
 export default {
   plugins: [
     Markdown({
-      // default options passed to markdown-it
-      // see: https://markdown-it.github.io/markdown-it/
-      markdownItOptions: {
+      // default options passed to markdown-exit
+      markdownOptions: {
         html: true,
         linkify: true,
         typographer: true,
       },
-      // A function providing the Markdown It instance gets the ability to apply custom settings/plugins
-      markdownItSetup(md) {
+      // A function providing the markdown-exit instance gets the ability to apply custom settings/plugins
+      markdownSetup(md) {
         // for example
         md.use(MarkdownItAnchor)
         md.use(MarkdownItPrism)

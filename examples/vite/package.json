@@ -2,8 +2,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "DEBUG=unplugin-vue-markdown:* vite",
-    "build": "DEBUG=unplugin-vue-markdown:* vite build"
+    "dev": "DEBUG=\"unplugin-vue-markdown:*\" vite",
+    "build": "DEBUG=\"unplugin-vue-markdown:*\" vite build"
   },
   "dependencies": {
     "@unhead/vue": "^2.0.17",

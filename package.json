@@ -16,7 +16,7 @@
   "keywords": [
     "vite",
     "unplugin",
-    "markdown-it"
+    "markdown-exit"
   ],
   "exports": {
     ".": {
@@ -84,9 +84,7 @@
     "@mdit-vue/plugin-component": "^3.0.2",
     "@mdit-vue/plugin-frontmatter": "^3.0.2",
     "@mdit-vue/types": "^3.0.2",
-    "@types/markdown-it": "^14.1.2",
-    "markdown-it": "^14.1.0",
-    "markdown-it-async": "^2.2.0",
+    "markdown-exit": "^1.0.0-beta.8",
     "unplugin": "^2.3.10",
     "unplugin-utils": "^0.3.0"
   },

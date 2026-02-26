@@ -3,6 +3,7 @@ import type { MarkdownEnv, ResolvedOptions } from '../types'
 import { toArray, uniq } from '@antfu/utils'
 import { componentPlugin } from '@mdit-vue/plugin-component'
 import { frontmatterPlugin } from '@mdit-vue/plugin-frontmatter'
+import { createMarkdownExit } from 'markdown-exit'
 import { preprocessHead } from './head'
 
 const scriptSetupRE = /<\s*script([^>]*)\bsetup\b([^>]*)>([\s\S]*)<\/script>/g
@@ -64,19 +65,17 @@ export function createMarkdown(options: ResolvedOptions) {
   const isVue2 = options.vueVersion.startsWith('2.')
 
   const setupPromise = (async () => {
-    const { default: MarkdownIt } = await import('markdown-it-async')
-
-    const md = MarkdownIt({
+    const md = createMarkdownExit({
       html: true,
       linkify: true,
       typographer: true,
-      ...options.markdownItOptions,
+      ...options.markdownOptions,
     })
 
-    md.use(componentPlugin, options.componentOptions)
+    md.use(componentPlugin as any, options.componentOptions)
 
     if (options.frontmatter || options.excerpt) {
-      md.use(frontmatterPlugin, {
+      md.use(frontmatterPlugin as any, {
         ...options.frontmatterOptions,
         grayMatterOptions: {
           excerpt: options.excerpt,
@@ -87,13 +86,13 @@ export function createMarkdown(options: ResolvedOptions) {
 
     md.linkify.set({ fuzzyLink: false })
 
-    options.markdownItUses.forEach((e) => {
+    options.markdownUses.forEach((e) => {
       const [plugin, options] = toArray(e)
 
       md.use(plugin, options)
     })
 
-    await options.markdownItSetup(md)
+    await options.markdownSetup(md)
 
     return md
   })()
